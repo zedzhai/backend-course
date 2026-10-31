@@ -1,24 +1,24 @@
 fun main() {
     println("===== Lab2 Simple Calculator =====")
     while (true) {
-        println("\n请输入第一个数字：")
+        println("\nEnter first number:")
         val num1 = readLine()?.toDoubleOrNull()
         if (num1 == null) {
-            println("输入无效，请输入数字！")
+            println("Invalid input, please enter a number!")
             continue
         }
 
-        println("请输入运算符( + - * / )：")
+        println("Enter operator (+ - * /):")
         val op = readLine()
         if (op !in listOf("+", "-", "*", "/")) {
-            println("运算符错误！只支持 + - * /")
+            println("Invalid operator! Only + - * / supported.")
             continue
         }
 
-        println("请输入第二个数字：")
+        println("Enter second number:")
         val num2 = readLine()?.toDoubleOrNull()
         if (num2 == null) {
-            println("输入无效，请输入数字！")
+            println("Invalid input, please enter a number!")
             continue
         }
 
@@ -28,7 +28,7 @@ fun main() {
             "*" -> num1 * num2
             "/" -> {
                 if (num2 == 0.0) {
-                    println("错误：不能除以0！")
+                    println("Error: division by zero!")
                     null
                 } else {
                     num1 / num2
@@ -38,13 +38,13 @@ fun main() {
         }
 
         if (result != null) {
-            println("结果：$num1 $op $num2 = $result")
+            println("Result: $num1 $op $num2 = $result")
         }
 
-        println("是否继续计算？y/n")
+        println("Continue? y/n")
         val again = readLine()
         if (again != "y") {
-            println("程序退出")
+            println("Program exit.")
             break
         }
     }
