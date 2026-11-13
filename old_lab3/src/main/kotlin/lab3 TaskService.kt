@@ -1,4 +1,4 @@
-class TaskService(private val repository: TaskRepository) {
+class lab3TaskService(private val repository: TaskRepository) {
 
     fun createTask(title: String, description: String = "", tags: Set<String> = emptySet()): TaskResult {
         val errors = mutableListOf<String>()
@@ -12,7 +12,7 @@ class TaskService(private val repository: TaskRepository) {
             errors.add("Description cannot exceed 1000 characters")
         }
         if (errors.isNotEmpty()) {
-            return TaskResult.ValidationError(errors)
+            return TaskResult.ValidationError(messages = errors)
         }
         val task = repository.create(title, description, tags)
         return TaskResult.Success(task)
@@ -42,3 +42,4 @@ class TaskService(private val repository: TaskRepository) {
 
     fun getStatistics(): Map<String, Int> = repository.getStatistics()
 }
+
