@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# Laboratory Work 11 - Step 3: docker-compose
+#   app : 由 Dockerfile 构建的 Kotlin 微服务（Lab12 完整版）
+#   db  : PostgreSQL 16，带 pg_isready 健康检查
+# 注意：宿主机若已安装 PostgreSQL（本项目开发机即占用 5432），
+#       这里把数据库映射到 5433，避免端口冲突；服务间仍走容器内 5432。
+# ---------------------------------------------------------------------------
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: task-manager:lab12
+    container_name: task-manager-app
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DATABASE_URL=jdbc:postgresql://db:5432/taskmanager
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=secret
+      - JWT_SECRET=production-secret-key
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/health/live || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    container_name: task-manager-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=taskmanager
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d taskmanager"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

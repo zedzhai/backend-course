@@ -1,0 +1,27 @@
+# 构建产物与本地环境
+build/
+**/build/
+.gradle/
+**/.gradle/
+
+# 版本控制与 IDE
+.git/
+.gitignore
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# 文档与截图（镜像内不需要）
+*.md
+docs/
+screenshots/
+*.png
+*.jpg
+*.jpeg
+
+# 本地临时文件
+*.log
+temp/
+.env
+.env.*
