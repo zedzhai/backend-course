@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 # ---------------------------------------------------------------------------
 # Laboratory Work 11 - Step 2: 多阶段构建
 #   Build stage：用 JDK 17 + 项目自带 Gradle Wrapper 编译胖 JAR（版本与本地/CI 一致）
